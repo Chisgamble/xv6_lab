@@ -149,5 +149,12 @@ main(int argc, char *argv[])
   testmem();
   testproc();
   printf("sysinfotest: OK\n");
+
+  struct sysinfo info;
+  sysinfo(&info);
+  printf("freemem: %lu\n", info.freemem);
+  printf("nproc: %lu \n", info.nproc);
+  printf("nopenfiles: %lu \n", info.nopenfiles);
+
   exit(0);
 }
