@@ -91,3 +91,18 @@ kalloc(void)
   return (void*)r;
 }
 
+uint64 freemem(void){
+  uint64 n = 0;
+  struct run *r;
+
+  acquire(&kmem.lock);
+  r = kmem.freelist;
+  
+  while (r){
+    n++;
+    r = r->next;
+  }
+  release(&kmem.lock);
+
+  return n * 4096;
+}

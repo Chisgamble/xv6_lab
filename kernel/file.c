@@ -180,3 +180,19 @@ filewrite(struct file *f, uint64 addr, int n)
   return ret;
 }
 
+uint64 nopenfiles(void){
+  uint64 count = 0;
+  struct file *f;
+
+  acquire(&ftable.lock);
+
+  for (int i = 0; i < NFILE; i++) {
+    f = &ftable.file[i];
+    if (f->ref > 0)
+      count++;
+  }
+
+  release(&ftable.lock);
+
+  return count;
+}
